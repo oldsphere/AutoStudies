@@ -1,0 +1,63 @@
+- sun:
+    dni: 1000
+    gaussian: {std_dev: 0.1312}
+- material: &id002
+    mirror: {reflectivity: 0.94, slope_error: 3e-3}
+- material: &id001
+    matte: {reflectivity: 0.06}
+- geometry:
+  - material: *id001
+    plane:
+      clip:
+      - operation: AND
+        vertices:
+        - [-0.5, -0.5]
+        - [0.5, -0.5]
+        - [0.5, 0.5]
+        - [-0.5, 0.5]
+      slices: 256
+    transform:
+      rotation: [0, 180, 0]
+- geometry: &id003
+  - hemisphere:
+      clip:
+      - circle:
+          center: [0, 0]
+          radius: 300e-3
+        operation: AND
+      radius: 305e-3
+      slices: 256
+    material: *id001
+    transform:
+      rotation: [0, 180, 0]
+      translation: [0, 0, 250e-3]
+- geometry:
+  - material: *id001
+    stl: {path: ../geometries/solarHeater03_tesselated_reversed.stl}
+    transform:
+      rotation: [0, 180, 0]
+- geometry:
+  - material: *id002
+    stl: {path: ../geometries/secondary_reflector_simple50deg.stl}
+    transform:
+      rotation: [0, 180, 0]
+- geometry: &id004
+  - material: *id002
+    stl: {path: ../dish00.stl}
+- entity:
+    anchors:
+    - name: anchor0
+      position: [0, 0, 0]
+    geometry: *id003
+    name: receiver
+    primary: 0
+    transform:
+      rotation: [0, 0, 0]
+      translation: [0, 0, 0]
+- entity:
+    geometry: *id004
+    name: primary_reflector
+    primary: 1
+    transform:
+      rotation: [0, 0, 0]
+      translation: [0, 0, -8]

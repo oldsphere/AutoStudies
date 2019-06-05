@@ -1,0 +1,11 @@
+- name: receiver
+  side: FRONT
+  per_primitive: INCOMING_AND_ABSORBED
+
+  #- name: primary_reflector
+  #  side: FRONT
+  #  per_primitive: INCOMING_AND_ABSORBED
+  #
+  #- name: secondary_reflector
+  #  side: FRONT
+  #  per_primitive: INCOMING_AND_ABSORBED
