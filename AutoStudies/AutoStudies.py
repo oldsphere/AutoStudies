@@ -4,6 +4,8 @@ import os, re
 from .Path import Path
 from shutil import copyfile
 
+import logging
+logger = logging.getLogger(__name__)
 
 class AbstractCase(ABC):
     def __init__(self):
@@ -36,36 +38,50 @@ class FolderCase(AbstractCase):
         self.name = self._path.name
 
     def set_name(self, name, overwrite=True):
+        ''' Rename the case '''
         self.name = name
+
         fileExists = (self._root/name).exists()
 
         if not overwrite and fileExists:
+            logger.error('file already exists and no overwrite is set')
             raise OSError('file already exists')
 
         if not fileExists:
             self._path.rename(name)
+            logger.info('Renaming case %s' % self.name)
         else:
             [copyfile(str(self._path/f), str(self._root/name/f))
              for f in self._path.ls()]
             self._path.rmtree()
+            logger.info('Overwriting case %s' % self.name)
         self._path = Path(self._root/name)
 
     def clone(self):
+        ''' Create a copy of the case for the relevant files '''
+
         clonepath = self._root/(self.name+'-clone')
         clonepath.mkdir(exist_ok=True)
+        logger.debug('created folder ' + self.bane + '-clone')
         [copyfile(str(self._path/f), str(clonepath/f))
          for f in self._path.ls() if str(f) in self._essentialFiles]
+        logger.debug('copied relevant files to cloned folder')
         ncase = self.__class__(clonepath)
+
+        logger.info('creating clone of ' + self.name)
+
         return ncase
 
     def clear(self):
         ''' Remove all the non-essential files '''
         [os.remove(str(self._path/f)) for f in self._path.ls()
          if not str(f) in self._essentialFiles]
+        logger.info('case %s cleaned' % self.name)
 
     def remove(self):
         ''' Remove the case '''
         self._path.rmtree()
+        logger.info('case %s removed' % self.name)
 
 
 class CaseLocator(list):
@@ -110,29 +126,39 @@ class Study:
         self._isoCases = []
         self._parameters = ParameterCombiner()
         self._basecase = None
+        logger.info('created new study')
 
     def set_namer(self, namer):
         ''' Set the namer object '''
         self.namer = namer
+        logger.info('Switched study namer')
 
     def set_basecase(self, case):
         ''' Set the basecase '''
         self._basecase = case
+        logger.info('Set %s as the basecase of the study' % case.name)
 
     def launch(self, post=False):
         ''' Launch the cases '''
+        self.info('running study')
         for cas in self.create_cases():
-            cas.run()
-            if post:
-                cas.post()
+            try:
+                cas.run()
+                if post:
+                    cas.post()
+            except:
+                logging.error('case %s has failed during run' % cas.name)
+                continue
 
     def add_parameter(self, command, rng):
         ''' Add a new parameter to the study '''
         self._parse_parameter(command, rng)
+        logger.info('Study has added a new parameter')
 
     def add_cases(self, caseList):
         ''' Add a series of cases '''
         self._isoCases += caseList
+        logger.info('Study has added %s isolated cases' % len(caseList))
 
     def create_cases(self):
         ''' Create cases '''
@@ -141,6 +167,7 @@ class Study:
             [f(ncase, v) for f,v in paramcase]
             ncase.set_name(self.namer.next())
             self._cases.append(ncase)
+            logger.debug('Study has created case %s' % ncase.name)
             yield ncase
 
         for case in self._isoCases:
@@ -150,6 +177,8 @@ class Study:
     def clearAll(self):
         for case in self._case:
             case.remove()
+        logger.info('Study has been cleaned')
+
 
     # - Private Methods -
 

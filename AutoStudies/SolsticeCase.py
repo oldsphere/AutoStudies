@@ -5,6 +5,8 @@ from yamlParser import createYAMLTree
 
 import numpy as np
 
+import logging
+logger = logging.getLogger(__name__)
 
 class SolsticeCase(FolderCase):
     ''' Basic case for Solstice '''
@@ -16,29 +18,44 @@ class SolsticeCase(FolderCase):
         self._nrays = int(1e6)
 
         self._path.go()
+        logger.debug('Moved to %s folder' % self.name)
         self.t = createYAMLTree('geometry.yaml')
+        logger.debug('read geometry.yaml config file')
         self._root.go()
+        logger.debug('Moved to %s root' % self.name)
+
 
     def run(self):
         ''' Run the case '''
         self._path.go()
+        logger.debug('Moved to %s folder' % self.name)
+        self.info('running %s' % self.name)
         os.system('solstice -D {} -n {} -R {} -f {} > out.log' \
                   .format(self._solar_dir, self._nrays,
                           'receiver.yaml', 'geometry.yaml'))
+        self.debug('case %s finished' % self.name)
         self._root.go()
+        logger.debug('Moved to %s root' % self.name)
 
     def rays(self):
         ''' Run the case '''
         self._path.go()
+        logger.debug('Moved to %s folder' % self.name)
+        self.info('running %s (only rays)' % self.name)
         os.system('solstice -D {} -n 1000 -R {} -p default {} | sed \'1d\' > rays.vtk' \
                   .format(self._solar_dir, 'receiver.yaml', 'geometry.yaml'))
+        self.debug('case %s finished' % self.name)
         self._root.go()
+        logger.debug('Moved to %s root' % self.name)
 
     def post(self, *args, **kwargs):
         ''' Post processing the case '''
         self._path.go()
+        logger.debug('Moved to %s folder' % self.name)
+        logger.info('post-processing %s' % self.name)
         os.system('solmaps out.log')
         self._root.go()
+        logger.debug('Moved to %s root' % self.name)
 
     def set_geometry(self, param, value):
         ''' Set geometry dictionary values
