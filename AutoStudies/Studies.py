@@ -1,4 +1,5 @@
 from .Auxiliar import ParameterCombiner, FoldNameCreator, NameCreator
+from .Path import Path
 
 import logging
 logger = logging.getLogger(__name__)
@@ -10,7 +11,7 @@ class Study:
         self._isoCases = []
         self._parameters = ParameterCombiner()
         self._basecase = None
-        logger.info('created new study')
+        logger.info('created new Study')
 
     def set_namer(self, namer):
         ''' Set the namer object '''
@@ -24,7 +25,7 @@ class Study:
 
     def launch(self, post=False):
         ''' Launch the cases '''
-        self.info('running study')
+        logger.info('running study')
         for cas in self.create_cases():
             try:
                 cas.run()
@@ -58,6 +59,9 @@ class Study:
             self._cases.append(case)
             yield case
 
+    def get_cases(self):
+        return self._cases
+
     def clearAll(self):
         for case in self._case:
             case.remove()
@@ -90,4 +94,5 @@ class FoldStudy(Study):
         if not self._casefold.exists():
             self._casefold.mkdir()
         self.namer = FoldNameCreator(casefold, 'case-')
+        logger.info('created new FoldStudy')
 
