@@ -32,6 +32,8 @@ class FolderCase(AbstractCase):
     ''' Case definition content in a folder '''
 
     def __init__(self, folder):
+        if not os.path.exists(folder):
+            raise FileNotFoundError()
         self._essentialFiles = []
         self._path = Path(folder)
         self._root = self._path.parent.absolute()
@@ -57,16 +59,28 @@ class FolderCase(AbstractCase):
             logger.info('Overwriting case %s' % self.name)
         self._path = Path(self._root/name)
 
+    def set_essentialFiles(self, file_list):
+        ''' Reset the essential file list '''
+        self._essentialFiles = file_list
+
+    def add_essentialFile(self, filename):
+        ''' Include a new file to the essential list '''
+        self._essentialFiles.append(filename)
+
+    def GetPath(self):
+        ''' Return the Path Object '''
+        return self._path
+
     def clone(self):
         ''' Create a copy of the case for the relevant files '''
 
         clonepath = self._root/(self.name+'-clone')
         clonepath.mkdir(exist_ok=True)
-        logger.debug('created folder ' + self.bane + '-clone')
+        logger.debug('created folder ' + self.name + '-clone')
         [copyfile(str(self._path/f), str(clonepath/f))
          for f in self._path.ls() if str(f) in self._essentialFiles]
         logger.debug('copied relevant files to cloned folder')
-        ncase = self.__class__(clonepath)
+        ncase = self.__class__(str(clonepath))
 
         logger.info('creating clone of ' + self.name)
 
