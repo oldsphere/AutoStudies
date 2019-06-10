@@ -101,8 +101,3 @@ class TestFolderCase(unittest.TestCase):
 
         case.remove()
 
-
-
-
-
-
