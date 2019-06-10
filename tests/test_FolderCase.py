@@ -6,6 +6,9 @@ sys.path.insert(0, '..')
 import os
 
 from AutoStudies import FolderCase
+import logging
+
+logging.disable(logging.CRITICAL)
 
 class dummyFoldCase(FolderCase):
     def run():

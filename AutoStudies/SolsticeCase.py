@@ -1,5 +1,5 @@
-from .AutoStudies import FolderCase, Study, CaseLocator
-from .decorators import checkcase, timeprint, timefile, casetimer
+from .AbstractCases import FolderCase
+from .Decorators import checkcase, timeprint, timefile, casetimer
 import os
 from yamlParser import createYAMLTree
 
