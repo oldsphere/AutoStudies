@@ -12,7 +12,8 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 install_reqs = [
-    "yamlParser",
+    "pushbullet.py",
+    "yamlParser"
 ]
 
 
@@ -46,5 +47,7 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities"
     ],
-    #install_requires=install_reqs
+    install_requires=install_reqs,
+    dependency_links=['git+https://github.com/rbrcsk/pushbullet.py/#egg=pushbullet.py',
+                      'git+https://github.com/oldsphere/yamlParser/#egg=yamlParser']
 )

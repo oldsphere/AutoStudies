@@ -1,6 +1,0 @@
-*.pyc
-build/
-dist/
-pushbullet.py.egg-info/
-.env
-.coverage
