@@ -63,7 +63,7 @@ class Study:
         return self._cases
 
     def clearAll(self):
-        for case in self._case:
+        for case in self._cases:
             case.remove()
         logger.info('Study has been cleaned')
 

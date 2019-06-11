@@ -8,7 +8,9 @@ import shutil
 from itertools import product
 import numpy as np
 
-from AutoStudies import FolderCase, Study, FoldStudy
+from AutoStudies import Study, FoldStudy
+from AutoStudies.Cases.AbstractCases import FolderCase
+from AutoStudies.Auxiliar import FoldNameCreator
 import logging
 
 logging.disable(logging.CRITICAL)
@@ -103,16 +105,24 @@ class TestFoldStudy(unittest.TestCase):
         shutil.rmtree('newStudy')
         cas.remove()
 
+    def test_EmptyLaunch(self):
+        study = FoldStudy('newStudy4')
+        study.launch()
+        os.rmdir('newStudy4')
+
     def test_Launch(self):
         study = FoldStudy('newStudy02')
         cas = dummyCase.create('dummyCase02')
 
-        study.set_basecase(cas)
         param1 = [2, -4, 5]
         param2 = [True, False]
         study.add_parameter('config.param_int', param1)
         study.add_parameter('config.param_err', param2)
 
+        # Check error if no basecase
+        self.assertRaises(AttributeError, study.launch)
+
+        study.set_basecase(cas)
         study.launch()
 
         for case in study.get_cases():
@@ -126,6 +136,26 @@ class TestFoldStudy(unittest.TestCase):
         shutil.rmtree('newStudy02')
         cas.remove()
 
-# def test_SetNamer
-# def test_addCases
-# def test_clearAll
+    def test_clearAll(self):
+        study = FoldStudy('newStudy03')
+
+        # No error on empty case
+        study.clearAll()
+
+        cas = dummyCase.create('dummyCase03')
+        study.add_parameter('config.param1', [1,2,3])
+        study.set_basecase(cas)
+        study.launch()
+
+        fold_list0 = os.listdir('newStudy03')
+        if not len(fold_list0) > 0:
+            raise Exception('Cases have not been created')
+
+        study.clearAll()
+        fold_list1 = os.listdir('newStudy03')
+        if fold_list1:
+            raise Exception('Cases have not been removed')
+
+        cas.remove()
+        os.rmdir('newStudy03')
+

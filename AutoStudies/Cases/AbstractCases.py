@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 import os, re
-from .Path import Path
+from ..Path import Path
 from shutil import copyfile
 
 import logging

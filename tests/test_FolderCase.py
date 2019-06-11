@@ -5,7 +5,7 @@ sys.path.insert(0, '..')
 
 import os
 
-from AutoStudies import FolderCase
+from AutoStudies.Cases.AbstractCases import FolderCase
 import logging
 
 logging.disable(logging.CRITICAL)

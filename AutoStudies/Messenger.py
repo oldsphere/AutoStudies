@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Messenger:
+class Notification:
 
     def __init__(self):
         self.name = ''
@@ -20,17 +20,18 @@ class Messenger:
     def set_msg(self, msg):
         self.msg = msg
 
+    def set_messeger(self, messenger):
+        self._messenger(messenger)
+
     def _parse_msg(self):
         self.msg.replace('%name', self.name)
         self.msg.replace('%etime', self.etime)
         self.msg.replace('%status', self.status)
 
-    @abstractmethod
     def send(self):
-        pass
+        self._messenger.send(self._parse_msg())
 
-
-class PushBullentMessenger(Messenger):
+class PushBullentMessenger:
 
     def __init__(self, configfile):
         self._config = configfile
