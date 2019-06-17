@@ -50,8 +50,8 @@ class ExcelCase(AbstractCase):
     def open(self):
         if not self.wb:
             xw.App(visible=self.visible)
-        self.wb = xw.Book(self._file)
-        logger.info('Case "%s" open' % self.name)
+            logger.info('Case "%s" open' % self.name)
+            self.wb = xw.Book(self._file)
 
     def close(self):
         ''' Close the case '''
