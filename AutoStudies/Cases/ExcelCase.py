@@ -73,6 +73,7 @@ class ExcelCase(AbstractCase):
         new_file = self._RenamePreserveExtension(self._file,
                                                  self.name+'-clone')
         self.wb.save(new_file)
+        self.close()
         ncase = self.__class__(new_file)
         ncase.visible = self.visible
         return ncase

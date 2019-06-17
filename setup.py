@@ -48,6 +48,6 @@ setup(
         "Topic :: Utilities"
     ],
     install_requires=install_reqs,
-    dependency_links=['git+https://github.com/rbrcsk/pushbullet.py/#egg=pushbullet.py',
-                      'git+https://github.com/oldsphere/yamlParser/#egg=yamlParser']
+    dependency_links=['https://github.com/rbrcsk/pushbullet.py/archive/master.zip',
+                      'https://github.com/oldsphere/yamlParser/archive/master.zip']
 )
