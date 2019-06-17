@@ -46,8 +46,6 @@ class ExcelCase(AbstractCase):
         mac = self.wb.macro(macro_name)
         logger.info('Running macro "%s" from workbook "%s"' % (macro_name, self.name))
         mac(*macro_args)
-        self.wb.save()
-        self.close()
 
     def open(self):
         if not self.wb:
