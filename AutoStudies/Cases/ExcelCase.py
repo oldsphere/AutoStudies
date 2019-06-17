@@ -42,6 +42,15 @@ class ExcelCase(AbstractCase):
         self.close()
         os.remove(self._file)
 
+    def run_macro(self, macro_name, macro_args=()):
+        ''' Run a Macro '''
+        self.open()
+        mac = wb.macro(macroname)
+        logger.info('Running %s macro from workbook %s' % ('Calcula', self.name))
+        mac(*macro_args)
+        self.wb.save()
+        self.close()
+
     def open(self):
         if not self.wb:
             xw.App(visible=self.visible)
@@ -73,12 +82,6 @@ class ExcelCase(AbstractCase):
 
 class ExcelMacroCase(ExcelCase):
 
-    def run(self):
+    def run(self, macroname):
         ''' Run the case '''
-        self.open()
-        mac = wb.macro('Calcula')
-        logger.info('Running %s macro from workbook %s' % ('Calcula', self.name))
-        mac()
-        self.wb.save()
-        self.close()
 
