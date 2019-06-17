@@ -33,7 +33,7 @@ setup(
     license = "MIT",
     keywords = "automatization cases simulation studies",
     url = "",
-    packages=['AutoStudies', 'AutoStudies.Cases', 'AutoStudies.Results']
+    packages=['AutoStudies', 'AutoStudies.Cases', 'AutoStudies.Results'],
     #long_description=read('readme.md'),
     classifiers=[
         "Development Status :: 4 - Beta",
