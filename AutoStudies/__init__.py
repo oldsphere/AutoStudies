@@ -4,7 +4,10 @@ from .Path import *
 
 # Import cases
 from .Cases.SolsticeCase import SolsticeCase
-from .Cases.ExcelCase import ExcelCase
+try:
+    from .Cases.ExcelCase import ExcelCase
+except ImportError:
+    pass
 
 
 
