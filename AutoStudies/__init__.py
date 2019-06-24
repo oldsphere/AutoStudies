@@ -1,11 +1,11 @@
-from .Auxiliar import *
-from .Studies import *
-from .Path import *
+from AutoStudies.Auxiliar import *
+from AutoStudies.Studies import *
+from AutoStudies.Path import *
 
 # Import cases
-from .Cases.SolsticeCase import SolsticeCase
+from AutoStudies.Cases.SolsticeCase import SolsticeCase
 try:
-    from .Cases.ExcelCase import ExcelCase
+    from AutoStudies.Cases.ExcelCase import ExcelCase
 except ImportError:
     pass
 
