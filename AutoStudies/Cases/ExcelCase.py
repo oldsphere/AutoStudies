@@ -79,6 +79,12 @@ class ExcelCase(AbstractCase):
         return ncase
 
     @staticmethod
+    def isValidName(name):
+        ''' Evaluate if a name is a valid filename '''
+        return (name.lower().endwith('.xlsm') or name.lower().endwith('xls')) \
+               and not name.startwith('~$')
+
+    @staticmethod
     def _RenamePreserveExtension(old, new):
         ''' Return the new name preserving extension '''
         path = os.path.dirname(old)
