@@ -16,9 +16,9 @@ class OpenFoamCase(AbstractCase):
 
         self.__dict__.update(
             {
-            'set_snappyHexMesh' : partial(self.set_dictSetting, dictName='snappyHexMesh'),
-            'set_fvSchemes' : partial(self.set_dictSetting, dictName='fvSchemes'),
-            'set_fvSolution' : partial(self.set_dictSetting, dictName='fvSolution'),
+            'set_snappyHexMesh' : partial(self.set_dictSettings, dictName='snappyHexMeshDict'),
+            'set_fvSchemes' : partial(self.set_dictSettings, dictName='fvSchemes'),
+            'set_fvSolution' : partial(self.set_dictSettings, dictName='fvSolution'),
             }
         )
 
@@ -26,11 +26,14 @@ class OpenFoamCase(AbstractCase):
         ''' handle the case renaming '''
         pass
 
-    def runApp(self, app, args=kwargs):
+    def run(self):
+        pass
+
+    def runApp(self, app, args={}):
         ''' Run an application with the specified arguments '''
 
         cmd = [app, '-case', self._path]
-        cmd += [f'-{k}',{v} for k,v in kwargs.items()]
+        cmd += sum([['-{}'.format(k),v] for k,v in args.items()], [])
         return UtilityRunner(cmd).start()
 
     def clone(self, newName=None):
@@ -46,9 +49,9 @@ class OpenFoamCase(AbstractCase):
         ''' Change a dictionary value '''
         f = self.findFile(dictName)
         if not f:
-            raise OSError(f'no "{dictName}" found in the case {self.name})
+            raise OSError('no "{}" found in the case {}'.format(dictName, self.name))
         if len(f) > 1:
-            raise OSError(f'multiple "{dictName}" found!')
+            raise OSError('multiple "{}" found!'.format(dictName))
 
         dictFile = OpenFoamDictionary(f[0])
         dictFile.set_parameter(setting, value)
