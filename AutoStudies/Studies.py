@@ -81,8 +81,9 @@ class Study:
            Return case.set_config(argument, x) anonymous function
         '''
 
-        cmd, atr = command.split('.')
+        cmd, *atr = command.split('.')
         cmd = 'set_'+cmd
+        atr = '.'.join(atr)
         return lambda x,y: getattr(x, cmd)(atr, y)
 
 
