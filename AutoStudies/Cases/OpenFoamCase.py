@@ -95,7 +95,6 @@ class OpenFoamDictionary(ParsedParameterFile):
         foamDict[parameter] = value
 
     def set_parameter(self, parameter, value):
-
         out = self._set(self.content, parameter, value)
         if out == -1:
             raise Exception(

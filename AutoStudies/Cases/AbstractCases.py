@@ -95,3 +95,24 @@ class FolderCase(AbstractCase):
         ''' Remove the case '''
         self._path.rmtree()
         logger.info('case %s removed' % self.name)
+
+    def findFiles(self, regex):
+        sep = os.path.sep
+        repath = lambda x: sep.join(x.split(sep)[1:])
+
+        return [repath(os.path.join(root, filename))
+                 for root, dirs, files in os.walk(str(self._path))
+                 for filename in files
+                 if re.search(regex, filename)
+                ]
+
+    @staticmethoc
+    def LocateInFileList(fileList, filename):
+       matches  = [filename
+                   for filename in fileList
+                   if re.search(regex, f)
+        ]
+
+        if matches:
+            return main_file[0]
+
