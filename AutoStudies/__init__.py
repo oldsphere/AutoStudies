@@ -19,4 +19,7 @@ except ImportError:
 
 
 try:
+    from AutoStudies.Cases.APDLCase import APDLCase
+except ImportError:
+    pass
 
