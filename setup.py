@@ -46,7 +46,5 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
         "Topic :: Utilities"
     ],
-    install_requires=install_reqs,
-    dependency_links=['https://github.com/rbrcsk/pushbullet.py/archive/master.zip',
-                      'https://github.com/oldsphere/yamlParser/archive/master.zip']
+    install_requires=[]
 )
