@@ -2,6 +2,8 @@ from AutoStudies.Auxiliar import *
 from AutoStudies.Studies import *
 from AutoStudies.Path import *
 
+from AutoStudies import Cases
+
 # Import cases
 from AutoStudies.Cases.SolsticeCase import SolsticeCase
 
@@ -15,4 +17,6 @@ try:
 except ImportError:
     pass
 
+
+try:
 
