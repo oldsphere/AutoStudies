@@ -107,7 +107,7 @@ class FolderCase(AbstractCase):
                 ]
 
     @staticmethod
-    def LocateInFileList(fileList, filename):
+    def LocateInFileList(fileList, regex):
         matches  = [filename
                    for filename in fileList
                    if re.search(regex, f)]
