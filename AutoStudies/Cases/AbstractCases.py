@@ -108,8 +108,8 @@ class FolderCase(AbstractCase):
 
     @staticmethod
     def LocateInFileList(fileList, regex):
-        matches  = [filename
-                   for filename in fileList
+        matches  = [f
+                   for f in fileList
                    if re.search(regex, f)]
         if matches:
             return main_file[0]
