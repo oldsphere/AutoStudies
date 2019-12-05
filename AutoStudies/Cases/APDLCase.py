@@ -36,7 +36,7 @@ class APDLCase(FolderCase):
         self._root.go()
 
 
-\t    def update_parameters(self):
+    def update_parameters(self):
         ''' Parse the available parameter '''
         if not self.parameter_file:
             raise Exception('No parameter.inp has been found in case {}'
@@ -88,9 +88,8 @@ class APDLCase(FolderCase):
                                 '={}'.format(value) + comment,
                                 content)
 
-        print(newContent)
-        #with open(paramFilePath, 'w') as f:
-        #    f.write(newContent)
+        with open(paramFilePath, 'w') as f:
+            f.write(newContent)
 
 
 
