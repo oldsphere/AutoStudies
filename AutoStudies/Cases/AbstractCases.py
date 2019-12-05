@@ -112,5 +112,9 @@ class FolderCase(AbstractCase):
                    for f in fileList
                    if re.search(regex, f)]
         if matches:
-            return main_file[0]
+            return matches[0]
+
+    def LocalPath(self, path):
+        ''' Referente the path using local state '''
+        return str(self._path/ path)
 
